@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pepsiwyl.mapper.RoleMapper">
+
+    <cache-ref namespace="com.pepsiwyl.mapper.UserMapper"/>
+
+    <!--根据用户名查询角色-->
+    <select id="getRolesByUserName" parameterType="String" resultType="role">
+        select r.id, r.name
+        from shiro.t_user u,
+             shiro.t_role r,
+             shiro.t_user_role ur
+        where u.id = ur.userid
+          and r.id = ur.roleid
+          and u.username = #{username};
+    </select>
+
+</mapper>

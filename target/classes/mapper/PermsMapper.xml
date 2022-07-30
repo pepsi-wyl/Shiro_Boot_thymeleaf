@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pepsiwyl.mapper.PermsMapper">
+
+    <cache-ref namespace="com.pepsiwyl.mapper.UserMapper"/>
+
+    <!--根据角色id查询权限集合-->
+    <select id="getPermsByRoleName" parameterType="String" resultType="perms">
+        select p.id, p.name, p.url
+        from t_role r,
+             t_perms p,
+             t_role_perms rp
+        where r.id = rp.roleid
+          and p.id = rp.permsid
+          and r.name = #{roleName};
+    </select>
+
+</mapper>

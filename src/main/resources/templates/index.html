@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+<h1>系统主页V1.0</h1>
+
+<!-- 验证当前用户是否为“访客”，即未认证（包含未记住）的用户。 -->
+<p shiro:guest="">Please <a th:href="@{/login.html}">login</a></p>
+
+<!-- 认证通过或已记住的用户。 -->
+<p shiro:user="">
+    Welcome back
+    <shiro:principal/>
+    ! Not
+    <shiro:principal/>
+    ? Click <a th:href="@{/login.html}">here</a> to login.
+</p>
+
+<!-- 已认证通过的用户。不包含已记住的用户，这是与user标签的区别所在。 -->
+<p shiro:authenticated="">
+    欢迎[
+    <shiro:principal/>
+    ]登录 <a th:href="@{/user/logout}">退出登陆</a>
+</p>
+
+<ul>
+    <shiro:hasAnyRoles name="user_manager,admin">
+        <li><a href="">用户管理</a>
+            <ul>
+                <shiro:hasPermission name="user:add:*">
+                    <li><a href="">添加</a></li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:delete:*">
+                    <li><a href="">删除</a></li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:update:*">
+                    <li><a href="">修改</a></li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="user:find:*">
+                    <li><a href="">查询</a></li>
+                </shiro:hasPermission>
+            </ul>
+        </li>
+    </shiro:hasAnyRoles>
+
+    <shiro:hasAnyRoles name="order_manager,admin">
+        <li><a href="">订单管理</a></li>
+        <ul>
+            <shiro:hasPermission name="order:add:*">
+                <li><a href="">添加</a></li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="order:delete:*">
+                <li><a href="">删除</a></li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="order:update:*">
+                <li><a href="">修改</a></li>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="order:find:*">
+                <li><a href="">查询</a></li>
+            </shiro:hasPermission>
+        </ul>
+    </shiro:hasAnyRoles>
+</ul>
+
+</body>
+</html>
